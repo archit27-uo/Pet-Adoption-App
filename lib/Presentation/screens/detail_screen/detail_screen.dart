@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:confetti/confetti.dart';
 
 import 'package:flutter/material.dart';
@@ -73,7 +75,14 @@ class _DetailScreenState extends State<DetailScreen> {
                   );
                 },
               ),
-            )
+
+            ),
+            ConfettiWidget(
+              confettiController: _controller,
+              blastDirection: pi / 2,
+              emissionFrequency: 0.09,
+              gravity: 0.01,
+            ),
           ]),
         );
       },
