@@ -31,5 +31,5 @@ This is a pet adoption app built using Flutter framework with the Bloc library f
 ![Screenshot (392)](https://github.com/archit27-uo/Pet-Adoption-App/assets/75472988/f9b19e40-3044-4a10-ad16-2edf35bee30b)
 
 ## App APK
-[APK](https://drive.google.com/file/d/1CoJ2_KoJHH05c9uZRrlS7nrwfaCHefd7/view?usp=drive_link)
+[APK](https://drive.google.com/drive/folders/1Fru9odoBHtW3g7UUydpj1kg8FwU53N7U?usp=drive_link)
 
