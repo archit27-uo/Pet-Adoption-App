@@ -11,6 +11,15 @@ final class AdoptionCardClickedEvent extends AdoptionEvent{
   AdoptionCardClickedEvent(this.index);
 }
 
+final class SearchClickedEvent extends AdoptionEvent{
+  final List<PetModel> searchList;
+
+  SearchClickedEvent(this.searchList);
+
+}
+
+final class OnTapZoomEvent extends AdoptionEvent{}
+
 final class AdoptMeClickedEvent extends AdoptionEvent{
   final int index;
 

@@ -30,7 +30,32 @@ class _DetailScreenState extends State<DetailScreen> {
   Widget build(BuildContext context) {
     return Stack(alignment: Alignment.topCenter, children: [
       Scaffold(
-        body: BlocBuilder<AdoptionBloc, AdoptionState>(
+        body: BlocConsumer<AdoptionBloc, AdoptionState>(
+            listener: (BuildContext context, AdoptionState state){
+              switch (state) {
+                case AdoptionInitial():
+                  break;
+                case AdoptionLoading():
+                  break;
+                case AdoptionFetched():
+                  break;
+                case AdoptionError():
+                  break;
+                case AdoptionCardClickedState():
+                break;
+                case AdoptMeClickedState():
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) =>
+                        const HistoryScreen()),
+                  );
+                case SearchedClickedState():
+                  break;
+
+                case OnTapZoomState():
+                  break;
+              }
+        },
           builder: (context, state) {
             if (state.store.index == null || state.store.adoptList == null) {
               return const SizedBox();
@@ -39,20 +64,18 @@ class _DetailScreenState extends State<DetailScreen> {
             final pet = state.store.adoptList![state.store.index!];
             return LayoutBuilder(builder: (context, constraint) {
               return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                //crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: UnconstrainedBox(
-                      child: SizedBox(
-                        height: constraint.maxHeight * 0.65,
-                        width: constraint.maxWidth * 0.9,
-                        child: InteractiveViewer(
-                          maxScale: 4.0,
-                          minScale: 0.2,
-                          constrained: false,
-
-                          // boundaryMargin: const EdgeInsets.all(double.infinity),
+                    child: GestureDetector(
+                      onTap : () {
+                        context.read<AdoptionBloc>().add(OnTapZoomEvent());
+                      },
+                      child: UnconstrainedBox(
+                        child: SizedBox(
+                          height: constraint.maxHeight * 0.65,
+                          width: constraint.maxWidth * 0.9,
                           child: Hero(
                             tag: pet.name.toString(),
                             child: pet.image == null
@@ -117,15 +140,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                 _controller.stop();
                               }
 
-                              pet.adoptionStatus = 'Adopted';
+                              pet.adoptionStatus = 'Already Adopted';
                               context
                                   .read<AdoptionBloc>()
                                   .add(AdoptMeClickedEvent(state.store.index!));
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const HistoryScreen()),
-                              );
+
                               //isPlaying = !isPlaying;
                             },
                             child: Padding(

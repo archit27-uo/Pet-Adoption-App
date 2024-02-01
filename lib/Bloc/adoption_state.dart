@@ -20,6 +20,12 @@ final class AdoptionLoading extends AdoptionState {
   }) : super(store: store);
 }
 
+final class OnTapZoomState extends AdoptionState{
+  const OnTapZoomState({
+    required AdoptionStateStore store,
+  }) : super(store: store);
+}
+
 final class AdoptionFetched extends AdoptionState {
   const AdoptionFetched({
     required AdoptionStateStore store,
@@ -47,25 +53,36 @@ final class AdoptMeClickedState extends AdoptionState {
   }) : super(store: store);
 }
 
+final class SearchedClickedState extends AdoptionState {
+  const SearchedClickedState({
+    required AdoptionStateStore store,
+    }) : super(store: store);
+}
+
 final class AdoptionStateStore {
   final int? index;
   final List<PetModel>? adoptList;
   final List<PetModel>? adoptHistoryList;
+  final List<PetModel>? adoptSearchedList;
 
   const AdoptionStateStore({
     this.index,
     this.adoptList,
     this.adoptHistoryList,
+    this.adoptSearchedList,
   });
   AdoptionStateStore copyWith({
     int? index,
     List<PetModel>? adoptList,
     List<PetModel>? adoptHistoryList,
+    List<PetModel>? adoptSearchedList,
   }) {
     return AdoptionStateStore(
       index: index ?? this.index,
       adoptList: adoptList ?? this.adoptList,
+
       adoptHistoryList: adoptHistoryList ?? this.adoptHistoryList,
+      adoptSearchedList: adoptSearchedList ?? this.adoptSearchedList,
     );
   }
 }

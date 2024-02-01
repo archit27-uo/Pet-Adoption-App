@@ -15,8 +15,20 @@ class AdoptionBloc extends Bloc<AdoptionEvent, AdoptionState> {
     on<FetchAdoptionListEvent>(_onFetchAdoptionListEvent);
     on<AdoptionCardClickedEvent>(_onAdoptionCardClickedEvent);
     on<AdoptMeClickedEvent>(_onAdoptMeClickedEvent);
+    on<SearchClickedEvent>(_onSearchClickedEvent);
+    on<OnTapZoomEvent>(_onOnTapZoomEvent);
   }
 
+  void _onOnTapZoomEvent(OnTapZoomEvent event,Emitter<AdoptionState> emit){
+      emit(OnTapZoomState(store: state.store));
+  }
+  void _onSearchClickedEvent(SearchClickedEvent event, Emitter<AdoptionState> emit,){
+     final pet = event.searchList;
+     if(pet==null) return;
+
+     emit(SearchedClickedState(store: state.store.copyWith(adoptSearchedList: pet)));
+
+  }
   void _onAdoptMeClickedEvent(
     AdoptMeClickedEvent event,
     Emitter<AdoptionState> emit,

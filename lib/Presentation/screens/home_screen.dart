@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:google_fonts/google_fonts.dart";
 import 'package:pet_adoption_app/Presentation/screens/detail_screen.dart';
+import 'package:pet_adoption_app/Presentation/screens/interactive_zoom.dart';
 import '../../Bloc/adoption_bloc.dart';
 import '../../models/pet_model.dart';
 
@@ -19,14 +20,28 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<AdoptionBloc>().add(FetchAdoptionListEvent());
   }
 
+  List<PetModel> _allDetail = [];
+  void _search(String enteredKeyWord) {
+
+    List<PetModel>? result = [];
+    if (enteredKeyWord.isNotEmpty) {
+      result = _allDetail
+          .where((pet) =>
+              pet.name!.toLowerCase().contains(enteredKeyWord.toLowerCase()))
+          .toList();
+    }
+
+    context.read<AdoptionBloc>().add(SearchClickedEvent(result));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: TextField(
-          onSubmitted: (_) => {},
-          onChanged: (_) => {},
+          //onSubmitted: (_) => {},
+          onChanged: (value) => _search(value),
         ),
         actions: [
           IconButton(
@@ -46,17 +61,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 case AdoptionLoading():
                   break;
                 case AdoptionFetched():
-                  break;
+                  _allDetail = state.store.adoptList!;
                 case AdoptionError():
                   break;
                 case AdoptionCardClickedState():
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => DetailScreen(),
+                      builder: (context) => const DetailScreen(),
                     ),
                   );
                 case AdoptMeClickedState():
                   break;
+                case SearchedClickedState():
+                  break;
+
+                case OnTapZoomState():
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const InteractiveZoom(),
+                    ),
+                  );
               }
             },
             builder: (context, state) {
@@ -65,9 +89,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: CircularProgressIndicator(),
                   ),
                 AdoptionError() => Text(state.error),
+                SearchedClickedState() => state.store.adoptSearchedList!.isEmpty
+                    ? PetListView(petList: state.store.adoptList!)
+                    : PetListView(petList: state.store.adoptSearchedList!),
                 _ => state.store.adoptList == null
                     ? const SizedBox()
                     : PetListView(petList: state.store.adoptList!)
+
               };
             },
           )
