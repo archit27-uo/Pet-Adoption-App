@@ -1,5 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/foundation.dart';
+
 
 import '../data/repository/adoption_repository.dart';
 import '../models/pet_model.dart';
@@ -17,18 +18,35 @@ class AdoptionBloc extends Bloc<AdoptionEvent, AdoptionState> {
     on<AdoptMeClickedEvent>(_onAdoptMeClickedEvent);
     on<SearchClickedEvent>(_onSearchClickedEvent);
     on<OnTapZoomEvent>(_onOnTapZoomEvent);
+    on<ThemeToggleEvent>(_onThemeToggleEvent);
+  }
+  void _onThemeToggleEvent(
+      ThemeToggleEvent event, Emitter<AdoptionState> emit) {
+    emit(
+      ThemeToggleState(
+        store: state.store.copyWith(
+            themeData: event.isDark
+                ? ThemeData.dark().copyWith()
+                : ThemeData.light().copyWith()),
+      ),
+    );
   }
 
-  void _onOnTapZoomEvent(OnTapZoomEvent event,Emitter<AdoptionState> emit){
-      emit(OnTapZoomState(store: state.store));
+  void _onOnTapZoomEvent(OnTapZoomEvent event, Emitter<AdoptionState> emit) {
+    emit(OnTapZoomState(store: state.store));
   }
-  void _onSearchClickedEvent(SearchClickedEvent event, Emitter<AdoptionState> emit,){
-     final pet = event.searchList;
-     if(pet==null) return;
 
-     emit(SearchedClickedState(store: state.store.copyWith(adoptSearchedList: pet)));
+  void _onSearchClickedEvent(
+    SearchClickedEvent event,
+    Emitter<AdoptionState> emit,
+  ) {
+    final pet = event.searchList;
 
+
+    emit(SearchedClickedState(
+        store: state.store.copyWith(adoptSearchedList: pet)));
   }
+
   void _onAdoptMeClickedEvent(
     AdoptMeClickedEvent event,
     Emitter<AdoptionState> emit,
@@ -43,7 +61,10 @@ class AdoptionBloc extends Bloc<AdoptionEvent, AdoptionState> {
         store: state.store.copyWith(
           adoptHistoryList: state.store.adoptHistoryList == null
               ? [state.store.adoptList![event.index]]
-              : [...?state.store.adoptHistoryList,state.store.adoptList![event.index]],
+              : [
+                  ...?state.store.adoptHistoryList,
+                  state.store.adoptList![event.index]
+                ],
         ),
       ),
     );

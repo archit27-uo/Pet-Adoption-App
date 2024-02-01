@@ -32,6 +32,12 @@ final class AdoptionFetched extends AdoptionState {
   }) : super(store: store);
 }
 
+final class ThemeToggleState extends AdoptionState{
+  const ThemeToggleState({
+    required AdoptionStateStore store,
+  }) : super(store: store);
+}
+
 final class AdoptionError extends AdoptionState {
   final String error;
 
@@ -64,18 +70,22 @@ final class AdoptionStateStore {
   final List<PetModel>? adoptList;
   final List<PetModel>? adoptHistoryList;
   final List<PetModel>? adoptSearchedList;
+  final ThemeData? themeData;
 
   const AdoptionStateStore({
     this.index,
     this.adoptList,
     this.adoptHistoryList,
     this.adoptSearchedList,
+    this.themeData,
+
   });
   AdoptionStateStore copyWith({
     int? index,
     List<PetModel>? adoptList,
     List<PetModel>? adoptHistoryList,
     List<PetModel>? adoptSearchedList,
+    ThemeData? themeData,
   }) {
     return AdoptionStateStore(
       index: index ?? this.index,
@@ -83,6 +93,7 @@ final class AdoptionStateStore {
 
       adoptHistoryList: adoptHistoryList ?? this.adoptHistoryList,
       adoptSearchedList: adoptSearchedList ?? this.adoptSearchedList,
+      themeData: themeData ?? this.themeData,
     );
   }
 }

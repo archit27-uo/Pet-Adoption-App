@@ -11,6 +11,13 @@ final class AdoptionCardClickedEvent extends AdoptionEvent{
   AdoptionCardClickedEvent(this.index);
 }
 
+final class ThemeToggleEvent extends AdoptionEvent{
+  final bool isDark;
+
+  ThemeToggleEvent.toggle(this.isDark);
+
+}
+
 final class SearchClickedEvent extends AdoptionEvent{
   final List<PetModel> searchList;
 

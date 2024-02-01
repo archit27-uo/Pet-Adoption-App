@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_view/photo_view.dart';
 
-import '../../Bloc/adoption_bloc.dart';
+import '../../../Bloc/adoption_bloc.dart';
 
 class InteractiveZoom extends StatefulWidget {
   const InteractiveZoom({Key? key}) : super(key: key);
